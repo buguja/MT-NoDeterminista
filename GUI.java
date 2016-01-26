@@ -1,24 +1,19 @@
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
+/**
+ * @author Javier Burón Gutiérrez.
+ *
+ */
 
-import javax.swing.SwingConstants;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
-import java.awt.Window.Type;
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 
 public class GUI extends JFrame{
-	private JTextField textFieldPathFile;
-	private JButton btnCalcular;
-	private JButton btnExaminar;
-	private JTextArea textAreaRecorrido;
-	private JTextField textFieldCosto;
-	private JLabel lblTipoArchivo;
+	public JTextField textFieldPathFile;
+	public JButton btnCalcular;
+	public JButton btnExaminar;
+	public JTextArea textAreaRecorrido;
+	public JTextField textFieldCosto;
+	public JLabel lblTipoArchivo;
+	public JTextField textFieldNodoInicial;
 	
 	public GUI(){
 		setType(Type.UTILITY);
@@ -35,6 +30,8 @@ public class GUI extends JFrame{
 		lblJavierBurnGutirrez.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		lblTipoArchivo = new JLabel("archivo");
+		lblTipoArchivo.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lblTipoArchivo.setForeground(new Color(60, 179, 113));
 		lblTipoArchivo.setBackground(Color.WHITE);
 		panel_1.add(lblTipoArchivo);
 		
@@ -61,6 +58,10 @@ public class GUI extends JFrame{
 		panel.add(panel_4);
 		
 		textAreaRecorrido = new JTextArea();
+		textAreaRecorrido.setTabSize(4);
+		textAreaRecorrido.setWrapStyleWord(true);
+		textAreaRecorrido.setLineWrap(true);
+		textAreaRecorrido.setEditable(false);
 		textAreaRecorrido.setRows(10);
 		textAreaRecorrido.setColumns(40);
 		panel_4.add(textAreaRecorrido);
@@ -79,14 +80,45 @@ public class GUI extends JFrame{
 		textFieldCosto.setBackground(Color.WHITE);
 		textFieldCosto.setEditable(false);
 		panel_5.add(textFieldCosto);
-		textFieldCosto.setColumns(20);
+		textFieldCosto.setColumns(15);
 		
 		JPanel panel_6 = new JPanel();
 		panel_2.add(panel_6, BorderLayout.EAST);
 		
+		JLabel lblNodoInicial = new JLabel("Nodo inicial:");
+		panel_6.add(lblNodoInicial);
+		
+		textFieldNodoInicial = new JTextField();
+		textFieldNodoInicial.setHorizontalAlignment(SwingConstants.CENTER);
+		panel_6.add(textFieldNodoInicial);
+		textFieldNodoInicial.setColumns(5);
+		
 		btnCalcular = new JButton("Calcular");
-		btnCalcular.setEnabled(false);
 		panel_6.add(btnCalcular);
+		
+		inicializar();
 		setVisible(true);
+	}
+	
+	public void inicializar(){
+		btnCalcular.setEnabled(false);
+		textAreaRecorrido.setText("");
+		textFieldCosto.setText("");
+		textFieldPathFile.setText("");
+		lblTipoArchivo.setText("");
+		textFieldNodoInicial.setText("1");
+	}
+	
+	public String obtenerRutaArchivo(){
+		JFileChooser fc = new JFileChooser();
+		fc.setMultiSelectionEnabled(false);
+		if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+			return fc.getSelectedFile().getPath();
+		}
+		return null;
+	}
+	
+	public void mostrarMensajeDialog(String contenido){
+		JOptionPane.showMessageDialog(null, contenido);
 	}
 }
